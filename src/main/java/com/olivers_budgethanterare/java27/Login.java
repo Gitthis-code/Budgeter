@@ -8,6 +8,8 @@ public class Login {
 
         boolean loggedIn  = false;
         int menuNav = 0;
+        String name = null;
+        String password = null;
         while(!loggedIn){
             IO.println("----------------------------------------------------------------");
             IO.println("Du måste logga in för att fortsätta");
@@ -31,8 +33,8 @@ public class Login {
 
 
                 if (menuNav == 1) {
-                    String name = IO.readln("Skriv in ditt användarnamn");
-                    String password = IO.readln("Skriv ditt lösenord");
+                    name = IO.readln("Skriv in ditt användarnamn");
+                    password = IO.readln("Skriv ditt lösenord");
 
                     boolean loginCheck = usersCredentials.checkCredentials(name, password);
 
@@ -44,8 +46,8 @@ public class Login {
                     }
 
                 }else{
-                    String name = IO.readln("Skriv in ett användarnamn");
-                    String password = IO.readln("Skriv ett lösenord");
+                    name = IO.readln("Skriv in ett användarnamn");
+                    password = IO.readln("Skriv ett lösenord");
                     boolean accountCreationCheck = usersCredentials.createAccount(name,password);
 
                     if (!accountCreationCheck){
@@ -62,6 +64,8 @@ public class Login {
 
 
         }
+
+        Budgeter.menu(password);
     }
 
 }

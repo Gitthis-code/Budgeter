@@ -8,3 +8,6 @@ Löste problemet genom att göra en containsKey check innan
 Vilket löste problemet. 
 
 -------
+https://www.baeldung.com/java-delay-code-execution
+
+Länk för sleep
