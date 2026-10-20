@@ -21,15 +21,16 @@ public class Login {
             }
 
 
-            while(menuNav != 1 && menuNav != 2){
+            while(menuNav != 1 && menuNav != 2) {
                 IO.println();
                 IO.println("Ogiltigt val, snälla välj mellan alternativ 1 och 2");
                 IO.println("1. Logga in");
                 IO.println("2. Skapa konto");
-                try{
+                try {
                     menuNav = Integer.parseInt(IO.readln());
-                }catch(NumberFormatException e){
+                } catch (NumberFormatException e) {
                 }
+            }
 
 
                 if (menuNav == 1) {
@@ -47,7 +48,7 @@ public class Login {
 
                 }else{
                     name = IO.readln("Skriv in ett användarnamn");
-                    password = IO.readln("Skriv ett lösenord");
+                    password = IO.readln("Skriv ett lösenord, lösenordet måste vara minst 8 karaktärer långt");
                     boolean accountCreationCheck = usersCredentials.createAccount(name,password);
 
                     if (!accountCreationCheck){
@@ -59,8 +60,6 @@ public class Login {
                     }
 
                 }
-
-            }
 
 
         }
