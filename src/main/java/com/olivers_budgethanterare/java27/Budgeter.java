@@ -1,8 +1,19 @@
 package com.olivers_budgethanterare.java27;
 
+import com.olivers_budgethanterare.java27.model.CardPayment;
+
 import java.util.concurrent.TimeUnit;
 
 public class Budgeter {
+
+    enum TransactionType{
+        INCOME,
+        EXPENSE
+    }
+
+    public record ExpirationDate(int expirationMonth, int expirationYear){}
+
+    public record CardOwner(String cardOwnerLastName, String cardOwnerFirstName){}
 
     static void main(){
         menu("burg");
@@ -30,6 +41,7 @@ public class Budgeter {
 
             switch(choice){
                 case 1:
+
                     break;
                 case 2:
                     break;
