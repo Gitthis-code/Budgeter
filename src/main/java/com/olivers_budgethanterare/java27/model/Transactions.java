@@ -17,7 +17,8 @@ public class Transactions {
 
     static void main(){
         addRandomTransactions();
-        filterTransactions();
+        //filterTransactions();
+        combineValueOfEnumType();
     }
 
 
@@ -79,7 +80,8 @@ public class Transactions {
     //----------------------------------------------------------------------
     //Methods to print Transactions
     public static void printTransactions(){
-        newTransactions.forEach(IO::println);
+        newTransactions.forEach(transaction -> IO.println(transaction.date + " " + transaction.transactionType +
+                " " + transaction.moneyAmount + " " + transaction.message));
     }
 
     public static void filterTransactions(){
@@ -107,7 +109,7 @@ public class Transactions {
             case 2:
                 while(moneyFilter == 0) {
                     try {
-                        moneyFilter = Integer.parseInt(IO.readln());
+                        moneyFilter = Integer.parseInt(IO.readln("Skriv numer at filtrera"));
                     } catch (NumberFormatException e) {
                         moneyFilter = 0;
                         IO.println("Error: ogiltigt input filter sätts automatiskt till 0");
@@ -118,7 +120,7 @@ public class Transactions {
             case 3:
                 while(moneyFilter == 0) {
                     try {
-                        moneyFilter = Integer.parseInt(IO.readln());
+                        moneyFilter = Integer.parseInt(IO.readln("Skriv numer at filtrera"));
                     } catch (NumberFormatException e) {
                         moneyFilter = 0;
                         IO.println("Error: ogiltigt input filter sätts automatiskt till 0");
@@ -225,6 +227,45 @@ public class Transactions {
         }
     }
 
+    //--------------------------------------------------------------
+    //Methods för att sammanställa all värden av INCOME eller EXPENSE
+    public static void combineValueOfEnumType(){
+        int nav = 0;
+        IO.println("1. Om du vill see värdet av din inkomst");
+        IO.print("2. Om du vill see kostnaden på dina utgifter");
+
+        while(nav != 1 && nav != 2){
+            try{
+                nav = Integer.parseInt(IO.readln());
+            }catch(NumberFormatException e){
+                nav = 0;
+                IO.println("Error: Ogiltigt input");
+            }
+            if(nav != 1 && nav != 2){
+                IO.println("Var vänlig välj ett giltigt menyval");
+            }
+        }
+
+        if (nav == 1){
+            var sum = newTransactions.stream()
+                    .filter(income -> income.transactionType.equals(TransactionType.INCOME))
+                    .map(income -> income.moneyAmount)
+                    .reduce(0, Integer::sum)
+                    .intValue();
+
+            IO.println("Din totala inkomst liger på " + sum);
+        }
+        else{
+            var sum = newTransactions.stream()
+                    .filter(expense -> expense.transactionType.equals(TransactionType.EXPENSE))
+                    .map(expense -> expense.moneyAmount)
+                    .reduce(0, Integer::sum)
+                    .intValue();
+
+            IO.println("Din totala utkomst liger på " + sum);
+        }
+
+    }
 
     //-----------------------------------------------------------
     //Method for testing because array starts out empty
@@ -247,6 +288,7 @@ public class Transactions {
         newTransactions.add(newTransaction);
         newTransaction = new TransactionInformation(
                 date, TransactionType.EXPENSE, 7680, "Hej");
+        newTransactions.add(newTransaction);
     }
 }
 

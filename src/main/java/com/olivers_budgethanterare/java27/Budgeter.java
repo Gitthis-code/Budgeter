@@ -36,11 +36,13 @@ public class Budgeter {
                     Transactions.addTransaction(user);
                     break;
                 case 2:
-                    Transactions.filterTransactions();
+                    Transactions.printTransactions();
                     break;
                 case 3:
+                    Transactions.combineValueOfEnumType();
                     break;
                 case 4:
+                    Transactions.filterTransactions();
                     break;
                 case 5:
                     break;
