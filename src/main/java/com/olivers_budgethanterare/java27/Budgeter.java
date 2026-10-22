@@ -7,10 +7,6 @@ import java.util.concurrent.TimeUnit;
 public class Budgeter {
 
 
-
-    public record ExpirationDate(int expirationMonth, int expirationYear){}
-    public record CardOwner(String cardOwnerLastName, String cardOwnerFirstName){}
-
     static void main(){
         menu("burg");
     }

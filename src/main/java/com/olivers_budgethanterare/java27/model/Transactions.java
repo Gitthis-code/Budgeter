@@ -4,17 +4,16 @@ import java.time.LocalDate;
 
 public class Transactions {
 
-    static void main(){
-        addTransaction();
-    }
-
     enum TransactionType{
         INCOME,
         EXPENSE
     }
 
-    record TransactionInformation(String date, TransactionType transactionType, int moneyAmount,String category){}
+    public record TransactionInformation(String date, TransactionType transactionType, int moneyAmount,String category){}
 
+    static void main(){
+        addTransaction();
+    }
 
     public static void addTransaction(){
 
