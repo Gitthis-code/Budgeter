@@ -14,7 +14,7 @@ public class Budgeter {
     public static void menu(String password, String user) {
 
         boolean running = true;
-        int choice = 0;
+        int choice;
 
         while(running){
             IO.println("--------------------------------------------------");
@@ -36,7 +36,7 @@ public class Budgeter {
                     Transactions.addTransaction(user);
                     break;
                 case 2:
-                    Transactions.printFilteredTransactions();
+                    Transactions.filterTransactions();
                     break;
                 case 3:
                     break;

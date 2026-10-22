@@ -2,8 +2,6 @@ package com.olivers_budgethanterare.java27.model;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
-
 
 public class Transactions {
 
@@ -19,7 +17,7 @@ public class Transactions {
 
     static void main(){
         addRandomTransactions();
-        printFilteredTransactions();
+        filterTransactions();
     }
 
 
@@ -84,9 +82,9 @@ public class Transactions {
         newTransactions.forEach(IO::println);
     }
 
-    public static void printFilteredTransactions(){
+    public static void filterTransactions(){
         int nav = 0;
-        while (nav < 1 || nav > 3){
+        while (nav < 1 || nav > 4){
         IO.println("-----------------------------");
         IO.println("Vad vill du filtrera");
         IO.println("1. datum");
@@ -102,17 +100,18 @@ public class Transactions {
         }
         }
         int moneyFilter = 0;
-        String messageFilter = "";
         switch (nav){
             case 1:
                 String dateFilter = IO.readln();
                 break;
             case 2:
-                try {
-                    moneyFilter = Integer.parseInt(IO.readln());
-                } catch (NumberFormatException e) {
-                    moneyFilter = 0;
-                    IO.println("Error: ogiltigt input filter sätts automatiskt till 0");
+                while(moneyFilter == 0) {
+                    try {
+                        moneyFilter = Integer.parseInt(IO.readln());
+                    } catch (NumberFormatException e) {
+                        moneyFilter = 0;
+                        IO.println("Error: ogiltigt input filter sätts automatiskt till 0");
+                    }
                 }
                 moneyFilterUpwards(moneyFilter);
                 break;
@@ -128,12 +127,21 @@ public class Transactions {
                 moneyFilterDownwards(moneyFilter);
                 break;
             case 4:
-                messageFilter = IO.readln("Skriv in ditt filter");
+                String messageFilter = IO.readln("Skriv in ditt filter");
                 messagesFilter(messageFilter);
                 break;
         }
 
 
+    }
+
+    //-----------------------------------
+    //Different filter functions
+    static void dateFilter(String filter){
+        newTransactions.stream()
+                .filter(date -> date.date.contains(filter))
+                .forEach(date -> IO.println(date.date + " " + date.transactionType +
+                " " + date.moneyAmount + " " + date.message));
     }
 
     static void messagesFilter(String filter){
@@ -160,22 +168,22 @@ public class Transactions {
             case 1:
             newTransactions.stream()
                     .filter(money -> money.moneyAmount >= filter)
-                    .forEach(message -> IO.println(message.date + " " + message.transactionType +
-                            " " + message.moneyAmount + " " + message.message));
+                    .forEach(money -> IO.println(money.date + " " + money.transactionType +
+                            " " + money.moneyAmount + " " + money.message));
                 break;
             case 2:
                 newTransactions.stream()
                         .filter(money -> money.moneyAmount >= filter)
                         .filter(money -> money.transactionType.equals(TransactionType.EXPENSE))
-                        .forEach(message -> IO.println(message.date + " " + message.transactionType +
-                                " " + message.moneyAmount + " " + message.message));
+                        .forEach(money -> IO.println(money.date + " " + money.transactionType +
+                                " " + money.moneyAmount + " " + money.message));
                 break;
             case 3:
                 newTransactions.stream()
                         .filter(money -> money.moneyAmount >= filter)
                         .filter(money -> money.transactionType.equals(TransactionType.INCOME))
-                        .forEach(message -> IO.println(message.date + " " + message.transactionType +
-                                " " + message.moneyAmount + " " + message.message));
+                        .forEach(money -> IO.println(money.date + " " + money.transactionType +
+                                " " + money.moneyAmount + " " + money.message));
                 break;
         }
     }
@@ -197,22 +205,22 @@ public class Transactions {
             case 1:
                 newTransactions.stream()
                         .filter(money -> money.moneyAmount <= filter)
-                        .forEach(message -> IO.println(message.date + " " + message.transactionType +
-                                " " + message.moneyAmount + " " + message.message));
+                        .forEach(money -> IO.println(money.date + " " + money.transactionType +
+                                " " + money.moneyAmount + " " + money.message));
                 break;
             case 2:
                 newTransactions.stream()
                         .filter(money -> money.moneyAmount <= filter)
                         .filter(money -> money.transactionType.equals(TransactionType.EXPENSE))
-                        .forEach(message -> IO.println(message.date + " " + message.transactionType +
-                                " " + message.moneyAmount + " " + message.message));
+                        .forEach(money -> IO.println(money.date + " " + money.transactionType +
+                                " " + money.moneyAmount + " " + money.message));
                 break;
             case 3:
                 newTransactions.stream()
                         .filter(money -> money.moneyAmount <= filter)
                         .filter(money -> money.transactionType.equals(TransactionType.INCOME))
-                        .forEach(message -> IO.println(message.date + " " + message.transactionType +
-                                " " + message.moneyAmount + " " + message.message));
+                        .forEach(money -> IO.println(money.date + " " + money.transactionType +
+                                " " + money.moneyAmount + " " + money.message));
                 break;
         }
     }
