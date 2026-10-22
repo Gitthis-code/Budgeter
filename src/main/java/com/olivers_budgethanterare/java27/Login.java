@@ -64,7 +64,7 @@ public class Login {
 
         }
 
-        Budgeter.menu(password);
+        Budgeter.menu(password, name);
     }
 
 }

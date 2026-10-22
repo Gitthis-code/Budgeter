@@ -15,6 +15,12 @@ public class Repository<T> {
 
     ArrayList<T> repository = new ArrayList<>();
 
+
+    static void main(){
+        Transactions.addTransaction("gurb");
+
+    }
+
     public void sendTransactionToRepository(T transaction){
         repository.add(transaction);
     }

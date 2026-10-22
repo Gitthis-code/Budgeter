@@ -1,5 +1,7 @@
 package com.olivers_budgethanterare.java27.model;
+
 import java.time.LocalDate;
+import java.util.*;
 
 
 public class Transactions {
@@ -11,11 +13,15 @@ public class Transactions {
 
     public record TransactionInformation(String date, TransactionType transactionType, int moneyAmount,String category){}
 
+    static TreeMap<String, List<TransactionInformation>> newTransactions = new TreeMap<>();
+
+
     static void main(){
-        addTransaction();
+        addTransaction("gurk");
+        IO.println(newTransactions);
     }
 
-    public static void addTransaction(){
+    public static void addTransaction(String user){
 
         String date = String.valueOf(LocalDate.now());
         TransactionType transactionType = pickTransactionType();
@@ -25,6 +31,8 @@ public class Transactions {
         TransactionInformation newTransaction = new TransactionInformation(date, transactionType, moneyAmount, category);
         IO.println("Transaktionen har tillagts: " + newTransaction.date + " " +  newTransaction.transactionType +
                     " " + newTransaction.moneyAmount + " " + newTransaction.category);
+
+            newTransactions.put(user, Collections.singletonList(newTransaction));
     }
 
 

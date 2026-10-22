@@ -8,10 +8,10 @@ public class Budgeter {
 
 
     static void main(){
-        menu("burg");
+        menu("burg", "gurk");
     }
 
-    public static void menu(String key) {
+    public static void menu(String password, String user) {
 
         boolean running = true;
         int choice = 0;
@@ -23,7 +23,8 @@ public class Budgeter {
             IO.println("3. Visa saldo och sammanställning per kategori");
             IO.println("4. filtrera transaktioner");
             IO.println("5. Spara till fil");
-            IO.println("6. Avsluta ");
+            IO.println("6. Byt användare");
+            IO.println("7. Avsluta ");
 
             try{
                 choice = Integer.parseInt(IO.readln("Välj ett alternativ"));
@@ -33,7 +34,7 @@ public class Budgeter {
 
             switch(choice){
                 case 1:
-                    Transactions.addTransaction();
+                    Transactions.addTransaction(user);
                     break;
                 case 2:
                     break;
@@ -44,6 +45,8 @@ public class Budgeter {
                 case 5:
                     break;
                 case 6:
+                    break;
+                case 7:
                     break;
 
             }
