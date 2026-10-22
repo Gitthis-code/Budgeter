@@ -21,7 +21,7 @@ public class Repository<T> {
 
     }
 
-    public void sendTransactionToRepository(T transaction){
-        repository.add(transaction);
+    public static <T> void sendTransactionToRepository(T transaction){
+        //repository.add(transaction);
     }
 }
