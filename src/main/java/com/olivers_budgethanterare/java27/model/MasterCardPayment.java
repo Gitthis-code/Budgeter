@@ -4,7 +4,7 @@ import com.olivers_budgethanterare.java27.Budgeter;
 
 public class MasterCardPayment extends CardPayment{
 
-    public MasterCardPayment(Budgeter.ExpirationDate expirationDate, Budgeter.CardOwner cardOwner, String cardNumber, int cvv){
+    public MasterCardPayment(Budgeter.ExpirationDate expirationDate, Budgeter.CardOwner cardOwner, String cardNumber, String cvv){
         this.expiration = expirationDate;
         this.cardOwner = cardOwner;
         this.cardNumber = cardNumber;
