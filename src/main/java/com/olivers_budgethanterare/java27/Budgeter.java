@@ -21,7 +21,7 @@ public class Budgeter {
             IO.println("1. Lägg till transaktion");
             IO.println("2. Visa transaktioner");
             IO.println("3. Visa saldo och sammanställning per kategori");
-            IO.println("4. filtrera transaktioner");
+            IO.println("4. Filtrera transaktioner");
             IO.println("5. Spara till fil");
             IO.println("6. Avsluta ");
 
@@ -45,6 +45,7 @@ public class Budgeter {
                 case 5:
                     break;
                 case 6:
+                    running = false;
                     break;
 
             }

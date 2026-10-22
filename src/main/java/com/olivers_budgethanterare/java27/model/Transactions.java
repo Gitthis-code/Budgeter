@@ -2,6 +2,7 @@ package com.olivers_budgethanterare.java27.model;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Transactions {
@@ -21,6 +22,9 @@ public class Transactions {
         printFilteredTransactions();
     }
 
+
+    //--------------------------------------------------------
+    //Methods for creating Transaction
     public static void addTransaction(String user){
 
         String date = String.valueOf(LocalDate.now());
@@ -74,6 +78,8 @@ public class Transactions {
             return TransactionType.INCOME;
     }
 
+    //----------------------------------------------------------------------
+    //Methods to print Transactions
     public static void printTransactions(){
         newTransactions.forEach(IO::println);
     }
@@ -84,8 +90,9 @@ public class Transactions {
         IO.println("-----------------------------");
         IO.println("Vad vill du filtrera");
         IO.println("1. datum");
-        IO.println("2. inkomst/utkomst");
-        IO.println("3. meddelanden");
+        IO.println("2. inkomst/utkomst över x");
+        IO.println("3. inkomst/utkomst under x");
+        IO.println("4. meddelanden");
 
 
         try{
@@ -94,22 +101,34 @@ public class Transactions {
             nav = 0;
         }
         }
-
+        int moneyFilter = 0;
+        String messageFilter = "";
         switch (nav){
             case 1:
                 String dateFilter = IO.readln();
                 break;
             case 2:
-                int moneyFilter = 0;
-                try{
+                try {
                     moneyFilter = Integer.parseInt(IO.readln());
-                }catch (NumberFormatException e){
-                   moneyFilter = 0;
+                } catch (NumberFormatException e) {
+                    moneyFilter = 0;
+                    IO.println("Error: ogiltigt input filter sätts automatiskt till 0");
                 }
-
+                moneyFilterUpwards(moneyFilter);
                 break;
             case 3:
-                String messageFilter = IO.readln("Skriv in ditt filter");
+                while(moneyFilter == 0) {
+                    try {
+                        moneyFilter = Integer.parseInt(IO.readln());
+                    } catch (NumberFormatException e) {
+                        moneyFilter = 0;
+                        IO.println("Error: ogiltigt input filter sätts automatiskt till 0");
+                    }
+                }
+                moneyFilterDownwards(moneyFilter);
+                break;
+            case 4:
+                messageFilter = IO.readln("Skriv in ditt filter");
                 messagesFilter(messageFilter);
                 break;
         }
@@ -118,22 +137,93 @@ public class Transactions {
     }
 
     static void messagesFilter(String filter){
-        IO.println("Hello");
         newTransactions.stream()
                 .filter(message -> message.message.contains(filter))
-                .forEach(IO::println);
+                .forEach(message -> IO.println(message.date + " " + message.transactionType +
+                        " " + message.moneyAmount + " " + message.message));
+    }
+
+    static void moneyFilterUpwards(int filter){
+        int nav = 0;
+        while (nav < 1 || nav > 3) {
+            IO.println("1. Om du vill see alla resultat");
+            IO.println("2. Om du vara bara vill see utgifter");
+            IO.println("3. Om du bara vill see utgifter");
+            try{
+                nav = Integer.parseInt(IO.readln());
+            }catch(NumberFormatException e){
+                nav = 0;
+                IO.println("Error: Ogiltigt input");
+            }
+        }
+        switch (nav) {
+            case 1:
+            newTransactions.stream()
+                    .filter(money -> money.moneyAmount >= filter)
+                    .forEach(message -> IO.println(message.date + " " + message.transactionType +
+                            " " + message.moneyAmount + " " + message.message));
+                break;
+            case 2:
+                newTransactions.stream()
+                        .filter(money -> money.moneyAmount >= filter)
+                        .filter(money -> money.transactionType.equals(TransactionType.EXPENSE))
+                        .forEach(message -> IO.println(message.date + " " + message.transactionType +
+                                " " + message.moneyAmount + " " + message.message));
+                break;
+            case 3:
+                newTransactions.stream()
+                        .filter(money -> money.moneyAmount >= filter)
+                        .filter(money -> money.transactionType.equals(TransactionType.INCOME))
+                        .forEach(message -> IO.println(message.date + " " + message.transactionType +
+                                " " + message.moneyAmount + " " + message.message));
+                break;
+        }
+    }
+
+    static void moneyFilterDownwards(int filter){
+        int nav = 0;
+        while (nav < 1 || nav > 3) {
+            IO.println("1. Om du vill see alla resultat");
+            IO.println("2. Om du vara bara vill see utgifter");
+            IO.println("3. Om du bara vill see utgifter");
+            try{
+                nav = Integer.parseInt(IO.readln());
+            }catch(NumberFormatException e){
+                nav = 0;
+                IO.println("Error: Ogiltigt input");
+            }
+        }
+        switch (nav) {
+            case 1:
+                newTransactions.stream()
+                        .filter(money -> money.moneyAmount <= filter)
+                        .forEach(message -> IO.println(message.date + " " + message.transactionType +
+                                " " + message.moneyAmount + " " + message.message));
+                break;
+            case 2:
+                newTransactions.stream()
+                        .filter(money -> money.moneyAmount <= filter)
+                        .filter(money -> money.transactionType.equals(TransactionType.EXPENSE))
+                        .forEach(message -> IO.println(message.date + " " + message.transactionType +
+                                " " + message.moneyAmount + " " + message.message));
+                break;
+            case 3:
+                newTransactions.stream()
+                        .filter(money -> money.moneyAmount <= filter)
+                        .filter(money -> money.transactionType.equals(TransactionType.INCOME))
+                        .forEach(message -> IO.println(message.date + " " + message.transactionType +
+                                " " + message.moneyAmount + " " + message.message));
+                break;
+        }
     }
 
 
-
-
-
+    //-----------------------------------------------------------
+    //Method for testing because array starts out empty
     public static void addRandomTransactions(){
-
-
         String date = String.valueOf(LocalDate.now());
         TransactionInformation newTransaction = new TransactionInformation(
-                date, TransactionType.INCOME, 89022, "Nej");
+                date, TransactionType.INCOME, 27490, "Nej");
         newTransactions.add(newTransaction);
         newTransaction = new TransactionInformation(
                 date, TransactionType.INCOME, 87738, "Inget jag vill säga");
@@ -142,15 +232,14 @@ public class Transactions {
                 date, TransactionType.EXPENSE, 58705, "Vet du vad");
         newTransactions.add(newTransaction);
         newTransaction = new TransactionInformation(
-                date, TransactionType.EXPENSE, 61529, "Kommer nog att säga något snart");
+                date, TransactionType.EXPENSE, 91258, "Kommer nog att säga något snart");
         newTransactions.add(newTransaction);
         newTransaction = new TransactionInformation(
-                date, TransactionType.INCOME, 77876, "Snart kommer det");
+                date, TransactionType.INCOME, 35987, "Snart kommer det");
         newTransactions.add(newTransaction);
         newTransaction = new TransactionInformation(
                 date, TransactionType.EXPENSE, 7680, "Hej");
     }
-
 }
 
 
