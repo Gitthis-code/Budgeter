@@ -195,7 +195,7 @@ public class Transactions {
         while (nav < 1 || nav > 3) {
             IO.println("1. Om du vill see alla resultat");
             IO.println("2. Om du vara bara vill see utgifter");
-            IO.println("3. Om du bara vill see utgifter");
+            IO.println("3. Om du bara vill see inkomst");
             try{
                 nav = Integer.parseInt(IO.readln());
             }catch(NumberFormatException e){

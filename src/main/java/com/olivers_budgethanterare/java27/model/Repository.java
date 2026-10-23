@@ -14,32 +14,46 @@ public class Repository {
 
     static void main() throws IOException {
 
-        /*String homeFolder = System.getProperty("user.home");
-        Path homePath = Path.of(homeFolder);
-        Path savePath = homePath.resolve("java26");
-
-        IO.println(savePath);
-        Files.createDirectories(savePath);
-        IO.println(Files.exists(savePath));
-        IO.println("Is directory: " + Files.isDirectory(savePath));
-        IO.println("Is file: " + Files.isRegularFile(savePath));
-        Path filePath = savePath.resolve("file.txt");
-        IO.println(Files.exists(filePath));
-        IO.println("Is directory: " + Files.isDirectory(filePath));
-        IO.println("Is file: " + Files.isRegularFile(filePath));
-        try {
-            Files.createFile(filePath);
-        } catch (FileAlreadyExistsException e) {
-            IO.println("File " + filePath + " already exists");
-        }
-        Files.writeString(filePath, "I'm fine åäö ûü");
-        */
-
         IO.println("-------------------");
-        createStoragePath("murger");
+        Path ssss = createFile("murger");
     }
 
-    public static Path createStoragePath(String user) throws IOException {
+    public static Path checkForFile(String user) throws IOException {
+        int nav = 0;
+
+        while(nav != 1 && nav != 2) {
+            IO.println("Har filen ett standard namn eller egengjort namn?");
+            IO.println("1. Standard");
+            IO.println("2. Egengjort");
+            try{
+                nav = Integer.parseInt(IO.readln());
+            }catch(NumberFormatException e){
+                nav = 0;
+            }
+        }
+
+        if(nav == 1){
+            Path filePath = savePath.resolve(user + ".txt");
+            if(Files.exists(filePath)){
+                IO.println("Hittade fil");
+                return filePath;
+            }
+        }
+        else{
+            String filename = IO.readln("Skriv in namnet på din fil");
+            Path filePath = savePath.resolve(filename + ".txt");
+            if(Files.exists(filePath)){
+                IO.println("Hittade fil");
+                return filePath;
+            }
+        }
+        IO.println("Hittade ingen fil med matchande namn");
+        return null;
+
+    }
+
+
+    public static Path createFile(String user) throws IOException {
         Files.createDirectories(savePath);
         int nav = 0;
         Path fileName;
@@ -81,6 +95,8 @@ public class Repository {
         }
         return fileName;
     }
+
+
 
 
 }
