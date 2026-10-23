@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+
+import static com.olivers_budgethanterare.java27.model.Transactions.newTransactions;
 
 public class Repository {
 
@@ -18,7 +21,7 @@ public class Repository {
         Path ssss = createFile("murger");
     }
 
-    public static Path checkForFile(String user) throws IOException {
+    public static Path checkForFile(String user){
         int nav = 0;
 
         while(nav != 1 && nav != 2) {
@@ -96,7 +99,23 @@ public class Repository {
         return fileName;
     }
 
+    public static void insertTransactionsArrayIntoFile(Path filePath) {
+        if (newTransactions.getFirst() == null) {
 
+            IO.println("Det finns inga transaktioner att spara");
 
+        }else {
+
+            newTransactions.forEach(transaction ->
+            {
+                try {
+                    Files.writeString(filePath, transaction.toString());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
+        }
+    }
 
 }
