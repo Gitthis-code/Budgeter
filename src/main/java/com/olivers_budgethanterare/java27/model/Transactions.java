@@ -24,7 +24,7 @@ public class Transactions {
 
     //--------------------------------------------------------
     //Methods for creating Transaction
-    public static void addTransaction(String user){
+    public static void addTransaction(){
 
         String date = String.valueOf(LocalDate.now());
         TransactionType transactionType = pickTransactionType();
@@ -104,7 +104,8 @@ public class Transactions {
         int moneyFilter = 0;
         switch (nav){
             case 1:
-                String dateFilter = IO.readln();
+                String dateFilter = IO.readln("Skriv in ditt filter");
+                dateFilter(dateFilter);
                 break;
             case 2:
                 while(moneyFilter == 0) {

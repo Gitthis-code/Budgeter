@@ -1,17 +1,20 @@
 package com.olivers_budgethanterare.java27;
 
+import com.olivers_budgethanterare.java27.model.Repository;
 import com.olivers_budgethanterare.java27.model.Transactions;
 
-import java.util.concurrent.TimeUnit;
+import java.io.IOException;
+import java.nio.file.Path;
+//import java.util.concurrent.TimeUnit;
 
 public class Budgeter {
 
 
-    static void main(){
+    static void main() throws IOException {
         menu("burg", "gurk");
     }
 
-    public static void menu(String password, String user) {
+    public static void menu(String password, String user) throws IOException {
 
         boolean running = true;
         int choice;
@@ -33,7 +36,7 @@ public class Budgeter {
 
             switch(choice){
                 case 1:
-                    Transactions.addTransaction(user);
+                    Transactions.addTransaction();
                     break;
                 case 2:
                     Transactions.printTransactions();
@@ -45,6 +48,29 @@ public class Budgeter {
                     Transactions.filterTransactions();
                     break;
                 case 5:
+                    int nav = 0;
+                    while(nav != 1 && nav != 2) {
+                        IO.readln("Har du redan en fil som du vill spara till?");
+                        IO.readln("1. Ja");
+                        IO.readln("2. Nej");
+                        try{
+                            nav = Integer.parseInt(IO.readln());
+                        }catch(NumberFormatException e){
+                            nav = 0;
+                            IO.readln("Snälla använd nummer inom inmatningen");
+                        }
+
+                        if(nav == 1){
+                            Path filePath = Repository.checkForFile(user);
+                            if (filePath != null){
+                                Repository.insertTransactionsArrayIntoFile(filePath);
+                            }
+                        }
+                        else if(nav == 2){
+                            Path filePath = Repository.createFile(user);
+                            Repository.insertTransactionsArrayIntoFile(filePath);
+                        }
+                    }
                     break;
                 case 6:
                     running = false;
@@ -56,11 +82,11 @@ public class Budgeter {
                 IO.println("Inte en giltig inmatning");
                 IO.println();
 
-                try {
+                /*try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException ie) {
                     Thread.currentThread().interrupt();
-                }
+                }*/
             }
         }
 

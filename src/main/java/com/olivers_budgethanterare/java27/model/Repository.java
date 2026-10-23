@@ -115,6 +115,7 @@ public class Repository {
                 }
             });
 
+            IO.println("Dina transaktioner har sparats till fil");
         }
     }
 

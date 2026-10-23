@@ -2,12 +2,14 @@ package com.olivers_budgethanterare.java27;
 
 import com.olivers_budgethanterare.java27.model.usersCredentials;
 
+import java.io.IOException;
+
 public class Login {
 
-    static void main(){
+    static void main() throws IOException {
 
         boolean loggedIn  = false;
-        int menuNav = 0;
+        int menuNav;
         String name = null;
         String password = null;
         while(!loggedIn){
@@ -18,6 +20,8 @@ public class Login {
             try{
                 menuNav = Integer.parseInt(IO.readln());
             }catch(NumberFormatException e){
+                menuNav = 0;
+                IO.println("Snälla använd numer som input");
             }
 
 
@@ -29,6 +33,7 @@ public class Login {
                 try {
                     menuNav = Integer.parseInt(IO.readln());
                 } catch (NumberFormatException e) {
+                    IO.println("Snälla använd numer som input");
                 }
             }
 
