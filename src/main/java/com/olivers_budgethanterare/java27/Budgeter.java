@@ -4,6 +4,8 @@ import com.olivers_budgethanterare.java27.model.Repository;
 import com.olivers_budgethanterare.java27.model.Transactions;
 
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 //import java.util.concurrent.TimeUnit;
 
@@ -18,7 +20,7 @@ public class Budgeter {
 
         boolean running = true;
         int choice;
-
+        Path filePath;
         while(running){
             IO.println("--------------------------------------------------");
             IO.println("1. Lägg till transaktion");
@@ -49,27 +51,51 @@ public class Budgeter {
                     break;
                 case 5:
                     int nav = 0;
+                    boolean fileTransferCheck = false;
                     while(nav != 1 && nav != 2) {
                         IO.readln("Har du redan en fil som du vill spara till?");
                         IO.readln("1. Ja");
                         IO.readln("2. Nej");
-                        try{
+                        try {
                             nav = Integer.parseInt(IO.readln());
-                        }catch(NumberFormatException e){
+                        } catch (NumberFormatException e) {
                             nav = 0;
                             IO.readln("Snälla använd nummer inom inmatningen");
                         }
+                    }
 
-                        if(nav == 1){
-                            Path filePath = Repository.checkForFile(user);
-                            if (filePath != null){
-                                Repository.insertTransactionsArrayIntoFile(filePath);
+                    if(nav == 1){
+                        filePath = Repository.checkForFile(user);
+                        if (filePath != null){
+                            fileTransferCheck = Repository.insertTransactionsArrayIntoFile(filePath);
+                        }
+                    }
+                    else if(nav == 2){
+                        nav = 0;
+                        while (nav != 1 && nav != 2) {
+                            IO.println("Vill du välja ett eget namn på filen?");
+                            IO.println("1. Ja");
+                            IO.println("2. Nej");
+                            try{
+                                nav = Integer.parseInt(IO.readln());
+                            }catch(NumberFormatException e) {
+                                nav = 0;
                             }
                         }
-                        else if(nav == 2){
-                            Path filePath = Repository.createFile(user);
-                            Repository.insertTransactionsArrayIntoFile(filePath);
+                        if(nav == 1 ) {
+                            String customName = IO.readln("Skriv namnet du vill ge filen");
+                            filePath = Repository.createFileWithCustomName(customName);
                         }
+                        else{
+                            filePath = Repository.createFile(user);
+                        }
+                        fileTransferCheck = Repository.insertTransactionsArrayIntoFile(filePath);
+                        }
+                    if(fileTransferCheck){
+                        IO.println("Överföringen gick igenom");
+                    }
+                    else{
+                        IO.println("Det blev ett fel med överföringen försök igen");
                     }
                     break;
                 case 6:

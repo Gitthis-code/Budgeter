@@ -4,25 +4,27 @@ import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 
 import static com.olivers_budgethanterare.java27.model.Transactions.newTransactions;
 
 public class Repository {
 
-    private static final String homeFolder = System.getProperty("user.home");
-    private static final Path homePath = Path.of(homeFolder);
-    private static final Path savePath = homePath.resolve("Budgeter");
+    static final String homeFolder = System.getProperty("user.home");
+    static final Path homePath = Path.of(homeFolder);
+    static final Path savePath = homePath.resolve("Budgeter");
 
     static void main() throws IOException {
 
         IO.println("-------------------");
-        Path ssss = createFile("murger");
+        Path test = createFile("Test");
     }
 
     public static Path checkForFile(String user){
         int nav = 0;
+
+        if(user == null){
+            return null;
+        }
 
         while(nav != 1 && nav != 2) {
             IO.println("Har filen ett standard namn eller egengjort namn?");
@@ -58,22 +60,8 @@ public class Repository {
 
     public static Path createFile(String user) throws IOException {
         Files.createDirectories(savePath);
-        int nav = 0;
         Path fileName;
-        while (nav != 1 && nav != 2) {
-            IO.println("Vill du välja ett eget namn på filen?");
-            IO.println("1. Ja");
-            IO.println("2. Nej");
-            try{
-                nav = Integer.parseInt(IO.readln());
-            }catch(NumberFormatException e) {
-                nav = 0;
-            }
-        }
-        if(nav == 1 ) {
-            fileName = createFileWithCustomName();
-        }
-        else{
+
             fileName = savePath.resolve(user + ".txt");
             try {
                 Files.createFile(fileName);
@@ -82,12 +70,12 @@ public class Repository {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }
+
         return fileName;
     }
 
-    private static Path createFileWithCustomName(){
-        Path fileName = savePath.resolve(IO.readln() + ".txt");
+    public static Path createFileWithCustomName(String name){
+        Path fileName = savePath.resolve(name + ".txt");
 
         try {
             Files.createFile(fileName);
@@ -99,24 +87,30 @@ public class Repository {
         return fileName;
     }
 
-    public static void insertTransactionsArrayIntoFile(Path filePath) {
-        if (newTransactions.getFirst() == null) {
+    public static boolean insertTransactionsArrayIntoFile(Path filePath) {
+        if(Files.exists(filePath)) {
 
-            IO.println("Det finns inga transaktioner att spara");
+            if (newTransactions.getFirst() == null) {
 
-        }else {
+                IO.println("Det finns inga transaktioner att spara");
+                return false;
+            } else {
 
-            newTransactions.forEach(transaction ->
-            {
-                try {
-                    Files.writeString(filePath, transaction.toString());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+                newTransactions.forEach(transaction ->
+                {
+                    try {
+                        Files.writeString(filePath, transaction.toString());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
 
-            IO.println("Dina transaktioner har sparats till fil");
+                IO.println("Dina transaktioner har sparats till fil");
+                newTransactions.clear();
+                return true;
+            }
         }
+        return false;
     }
 
 }
