@@ -7,7 +7,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class TransactionsTest {
 
     @Test
-    void TransactionsTest() {
+    void assertStoringOfTransaction(){
+        var Transactions = new Transactions();
+
+
     }
 
 }

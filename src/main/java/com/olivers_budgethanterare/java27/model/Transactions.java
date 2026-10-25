@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Transactions {
 
-    enum TransactionType{
+    public enum TransactionType{
         INCOME,
         EXPENSE
     }
@@ -24,14 +24,14 @@ public class Transactions {
 
     //--------------------------------------------------------
     //Methods for creating Transaction
-    public static void addTransaction(){
+    public static void addTransaction(TransactionType transactionType, int  moneyAmount, String message){
 
         String date = String.valueOf(LocalDate.now());
-        TransactionType transactionType = pickTransactionType();
-        int moneyAmount = pickMoneyAmount();
-        String category = IO.readln("Skriv en kommentar om du vill");
+        //TransactionType transactionType = pickTransactionType();
+        //int moneyAmount = pickMoneyAmount();
+        //String category = IO.readln("Skriv en kommentar om du vill");
 
-        TransactionInformation newTransaction = new TransactionInformation(date, transactionType, moneyAmount, category);
+        TransactionInformation newTransaction = new TransactionInformation(date, transactionType, moneyAmount, message);
         IO.println("Transaktionen har tillagts: " + newTransaction.date + " " +  newTransaction.transactionType +
                     " " + newTransaction.moneyAmount + " " + newTransaction.message);
 
@@ -40,7 +40,7 @@ public class Transactions {
     }
 
 
-    static int pickMoneyAmount(){
+    public static int pickMoneyAmount(){
         int moneyAmount = 0;
         while(moneyAmount < 1) {
             try {
@@ -56,7 +56,7 @@ public class Transactions {
         return moneyAmount;
     }
 
-    static TransactionType pickTransactionType(){
+    public static TransactionType pickTransactionType(){
         int menuNav = 0;
         while(menuNav != 1 && menuNav != 2) {
             IO.println("Var transaktionen en utgift eller inkomst?");

@@ -38,7 +38,10 @@ public class Budgeter {
 
             switch(choice){
                 case 1:
-                    Transactions.addTransaction();
+                    Transactions.TransactionType transactionType = Transactions.pickTransactionType();
+                    int Money = Transactions.pickMoneyAmount();
+                    String message = IO.readln("Skriv en kommentar om du vill");
+                    Transactions.addTransaction(transactionType, Money, message);
                     break;
                 case 2:
                     Transactions.printTransactions();
