@@ -14,29 +14,21 @@ public class Transactions {
 
      static ArrayList<TransactionInformation> newTransactions = new ArrayList<>();
 
-
-    static void main(){
-        addRandomTransactions();
-        //filterTransactions();
-        combineValueOfEnumType();
-    }
-
-
     //--------------------------------------------------------
     //Methods for creating Transaction
     public static void addTransaction(TransactionType transactionType, int  moneyAmount, String message){
 
         String date = String.valueOf(LocalDate.now());
-        //TransactionType transactionType = pickTransactionType();
-        //int moneyAmount = pickMoneyAmount();
-        //String category = IO.readln("Skriv en kommentar om du vill");
 
-        TransactionInformation newTransaction = new TransactionInformation(date, transactionType, moneyAmount, message);
-        IO.println("Transaktionen har tillagts: " + newTransaction.date + " " +  newTransaction.transactionType +
+        if(transactionType == null || moneyAmount == 0){
+            IO.println("Det gick inte att spara Transaktionen för att inmatningen saknar nödvändig data eller att beloppet var 0");
+        }else {
+            TransactionInformation newTransaction = new TransactionInformation(date, transactionType, moneyAmount, message);
+            IO.println("Transaktionen har tillagts: " + newTransaction.date + " " + newTransaction.transactionType +
                     " " + newTransaction.moneyAmount + " " + newTransaction.message);
 
-
-        newTransactions.add(newTransaction);
+            newTransactions.add(newTransaction);
+        }
     }
 
 
